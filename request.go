@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"sync"
@@ -101,13 +100,13 @@ func (c *Client) request(ctx context.Context, method string, arguments interface
 	// Debug
 	if c.debug {
 		var data []byte
-		if data, err = ioutil.ReadAll(resp.Body); err == nil {
+		if data, err = io.ReadAll(resp.Body); err == nil {
 			fmt.Fprintln(os.Stderr, string(data))
 		} else {
 			fmt.Fprintln(os.Stderr, err.Error())
 		}
 		resp.Body.Close()
-		resp.Body = ioutil.NopCloser(bytes.NewBuffer(data))
+		resp.Body = io.NopCloser(bytes.NewBuffer(data))
 	}
 	// Decode body
 	answer := answerPayload{

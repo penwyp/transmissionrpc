@@ -217,17 +217,17 @@ func (t *Torrent) UnmarshalJSON(data []byte) (err error) {
 	// Shadow real type for regular unmarshalling
 	type RawTorrent Torrent
 	tmp := &struct {
-		ActivityDate   *int64  `json:"activityDate"`
-		AddedDate      *int64  `json:"addedDate"`
-		DateCreated    *int64  `json:"dateCreated"`
-		DoneDate       *int64  `json:"doneDate"`
-		EditDate       *int64  `json:"editDate"`
-		PieceSize      *int64  `json:"pieceSize"`
-		SecondsSeeding *int64  `json:"secondsSeeding"`
-		SizeWhenDone   *int64  `json:"sizeWhenDone"`
-		StartDate      *int64  `json:"startDate"`
-		TotalSize      *int64  `json:"totalSize"`
-		Wanted         []int64 `json:"wanted"` // boolean in number form
+		ActivityDate   *int64 `json:"activityDate"`
+		AddedDate      *int64 `json:"addedDate"`
+		DateCreated    *int64 `json:"dateCreated"`
+		DoneDate       *int64 `json:"doneDate"`
+		EditDate       *int64 `json:"editDate"`
+		PieceSize      *int64 `json:"pieceSize"`
+		SecondsSeeding *int64 `json:"secondsSeeding"`
+		SizeWhenDone   *int64 `json:"sizeWhenDone"`
+		StartDate      *int64 `json:"startDate"`
+		TotalSize      *int64 `json:"totalSize"`
+		Wanted         []bool `json:"wanted"` // boolean in number form
 		*RawTorrent
 	}{
 		RawTorrent: (*RawTorrent)(t),
@@ -281,10 +281,8 @@ func (t *Torrent) UnmarshalJSON(data []byte) (err error) {
 	if tmp.Wanted != nil {
 		t.Wanted = make([]bool, len(tmp.Wanted))
 		for index, value := range tmp.Wanted {
-			if value == 1 {
+			if value {
 				t.Wanted[index] = true
-			} else if value != 0 {
-				return fmt.Errorf("can't convert wanted index %d value '%d' as boolean", index, value)
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 # VSCode local settings
 .vscode
+.idea
 
 # Vendoring
 vendor/

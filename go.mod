@@ -1,4 +1,4 @@
-module github.com/hekmon/transmissionrpc/v2
+module github.com/penwyp/transmissionrpc/v2
 
 go 1.13
 
